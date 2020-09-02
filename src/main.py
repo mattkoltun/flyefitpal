@@ -72,4 +72,7 @@ if __name__ == "__main__":
             site = arg
         elif opt in ("-t", "--time"):
             time = arg
+    if not email or not password or not site or not time:
+        print("Missing required arguments. Run help for more information:\n\tmain.py --help")
+        sys.exit(1)
     main(email, password, site, time)
