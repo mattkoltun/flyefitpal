@@ -34,22 +34,28 @@ DEFAULT_CHROME_OPTIONS = [
 
 
 class FullyBookedException(Exception):
-    pass
+    def __init__(self, message="Time slot is fully booked out."):
+        super().__init__(message)
 
 class AlreadyBookedException(Exception):
-    pass
+    def __init__(self, message="Time slot is already booked."):
+        super().__init__(message)
 
 class NotYetAvailableException(Exception):
-    pass
+    def __init__(self, message="Time slot not open yet."):
+        super().__init__(message)
 
 class GymSiteNotFound(Exception):
-    pass
+    def __init__(self, message="Gym Site not found."):
+        super().__init__(message)
 
 class WrongTimeSlotException(Exception):
-    pass
+    def __init__(self, message="Time slot not found for this gym location."):
+        super().__init__(message)
 
 class DailyLimitReachedException(Exception):
-    pass
+    def __init__(self, message="You've already booked once for that day."):
+        super().__init__(message)
 
 class WorkoutSession(object): 
     def __init__(self, site_name, time, date):
@@ -59,7 +65,7 @@ class WorkoutSession(object):
             self.site_name = site_name
             self.site_id = SITE_IDS[site_name]
         except KeyError:
-            raise GymSiteNotFound("Gym Site not found.")
+            raise GymSiteNotFound()
 
 
 class FlyefitPal(object):
@@ -116,21 +122,21 @@ class FlyefitPal(object):
 
         button = self.__find_book_button(workout.time)
         if not button:
-            raise WrongTimeSlotException("Time slot not found for this gym location.")
+            raise WrongTimeSlotException()
         elif button.text == "Booked":
-            raise AlreadyBookedException("Time slot is already booked.")
+            raise AlreadyBookedException()
         elif button.text == "Fully Booked":
-            raise FullyBookedException("Time slot is fully booked out.")
+            raise FullyBookedException()
         elif button.text == "Not Yet Open":
-            raise NotYetAvailableException("Time slot not open yet.")
+            raise NotYetAvailableException()
 
         # click the Book button
         button.click() 
         # Confirm booking button
         confirm_button = self.__driver.find_element(By.ID, "book_class")
-        sleep(1) # required as sometimes the button doesn't load on time
+        sleep(1) # required as sometimes the button doesn't load on time #TODO fix it
         if not confirm_button.text:
-            raise DailyLimitReachedException("You've already booked once for that day.")
+            raise DailyLimitReachedException()
         confirm_button.click()
 
     def book_workout(self,workout_session):
