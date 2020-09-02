@@ -13,7 +13,7 @@ help_message = \
         "\nSynopsis:\n" + \
         "\tmain.py -e <email> -p <password> -s <site> -t <time_slot>\n\n" + \
         "\te.g.\tmain.py -e me@exmaple.com -p supersecret123 " + \
-        "\-s 'Liffey Valley' -t '13:30 - 14:45'\n\n" + \
+        "-s 'Liffey Valley' -t '13:30 - 14:45'\n\n" + \
         "\t-e, --email\t\t: Login email\n" + \
         "\t-p, --password\t\t: Login password\n" + \
         "\t-s, --site\t\t: Gym location, must be exactly the same as on the Website\n" + \
@@ -55,6 +55,7 @@ def main(email, password, site, time):
         sys.exit()
 
 if __name__ == "__main__":
+    email, password, site, time = '', '', '', ''
     try: 
         opts, args = getopt.getopt(sys.argv[1:], "e:p:s:t:h", ["email=", "password=", "site=", "time=", "help"])
     except getopt.GetoptError:
@@ -72,7 +73,7 @@ if __name__ == "__main__":
             site = arg
         elif opt in ("-t", "--time"):
             time = arg
-    if not email or not password or not site or not time:
+    if not (email and password and site and time):
         print("Missing required arguments. Run help for more information:\n\tmain.py --help")
         sys.exit(1)
     main(email, password, site, time)
