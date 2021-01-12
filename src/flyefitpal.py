@@ -89,7 +89,7 @@ class FlyefitPal(object):
         self.__driver.find_element(By.NAME, "password").send_keys(self.__password)
         self.__driver.find_element(By.NAME, "log_in").click()
 
-    def __go_to_bookout_page(self, workout):
+    def __go_to_booking_page(self, workout):
         self.__driver.get(BOOKING_URL)
         
         # find 3 drop down selectors TYPE, SITE, DATE
@@ -141,6 +141,6 @@ class FlyefitPal(object):
 
     def book_workout(self,workout_session):
         self.__login()
-        self.__go_to_bookout_page(workout_session)
+        self.__go_to_booking_page(workout_session)
         self.__book_session(workout_session)
         self.__driver.quit()
